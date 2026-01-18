@@ -39,7 +39,7 @@ data class AccountMenuResponse(
                         ) {
                             fun toAccountInfo() =
                                 AccountInfo(
-                                    name = accountName.runs!!.first().text,
+                                    name = accountName.runs?.firstOrNull()?.text ?: "",
                                     email = email?.runs?.first()?.text,
                                     channelHandle = channelHandle?.runs?.first()?.text,
                                     thumbnailUrl = accountPhoto.thumbnails.lastOrNull()?.url,

@@ -64,7 +64,7 @@ data class BrowseResponse(
         @Serializable
         data class GridContinuation(
             val items: List<GridRenderer.Item> = emptyList(),
-            val continuations: List<Continuation>?,
+            val continuations: List<Continuation>? = null,
         )
     }
 
