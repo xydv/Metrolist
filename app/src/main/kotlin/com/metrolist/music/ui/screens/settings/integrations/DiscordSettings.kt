@@ -447,19 +447,6 @@ fun RichPresence(song: Song?, currentPlaybackTimeMillis: Long = 0L) {
             ) {
                 Text(stringResource(R.string.listen_on_youtube_music))
             }
-
-            OutlinedButton(
-                onClick = {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW,
-                        "https://github.com/mostafaalagamy/Metrolist".toUri()
-                    )
-                    context.startActivity(intent)
-                },
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(stringResource(R.string.visit_metrolist))
-            }
         }
     }
 }
