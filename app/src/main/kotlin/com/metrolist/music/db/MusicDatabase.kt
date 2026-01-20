@@ -104,7 +104,7 @@ class MusicDatabase(
         SortedSongAlbumMap::class,
         PlaylistSongMapPreview::class,
     ],
-    version = 29,
+    version = 30,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -152,7 +152,8 @@ abstract class InternalDatabase : RoomDatabase() {
                         MIGRATION_1_2,
                         MIGRATION_21_24,
                         MIGRATION_22_24,
-                        MIGRATION_24_25
+                        MIGRATION_24_25,
+                        MIGRATION_29_30,
                     )
                     .fallbackToDestructiveMigration(dropAllTables = true)
                     .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
@@ -660,6 +661,45 @@ val MIGRATION_24_25 =
             if (!columnExists) {
                 // Add the column allowing NULL values (since existing rows won't have this data)
                 db.execSQL("ALTER TABLE format ADD COLUMN perceptualLoudnessDb REAL DEFAULT NULL")
+            }
+        }
+    }
+
+val MIGRATION_29_30 =
+    object : Migration(29, 30) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // Fix missing isVideo column if needed (safeguard)
+            var hasIsVideo = false
+            db.query("PRAGMA table_info('song')").use { cursor ->
+                val nameIndex = cursor.getColumnIndex("name")
+                while (cursor.moveToNext()) {
+                    val colName = if (nameIndex >= 0) cursor.getString(nameIndex) else null
+                    if (colName == "isVideo") {
+                        hasIsVideo = true
+                        break
+                    }
+                }
+            }
+            if (!hasIsVideo) {
+                db.execSQL("ALTER TABLE song ADD COLUMN isVideo INTEGER NOT NULL DEFAULT 0")
+            }
+
+            // Add provider column to lyrics table if it doesn't exist
+            var hasProvider = false
+            db.query("PRAGMA table_info('lyrics')").use { cursor ->
+                val nameIndex = cursor.getColumnIndex("name")
+                while (cursor.moveToNext()) {
+                    val colName = if (nameIndex >= 0) cursor.getString(nameIndex) else null
+                    if (colName == "provider") {
+                        hasProvider = true
+                        break
+                    }
+                }
+            }
+
+            if (!hasProvider) {
+                // Add the provider column with a default value of "Unknown"
+                db.execSQL("ALTER TABLE lyrics ADD COLUMN provider TEXT NOT NULL DEFAULT 'Unknown'")
             }
         }
     }
