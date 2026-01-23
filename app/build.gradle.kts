@@ -8,7 +8,6 @@ if (localPropertiesFile.exists()) {
 }
 plugins {
     id("com.android.application")
-    kotlin("android")
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.compose.compiler)
@@ -23,8 +22,8 @@ android {
         applicationId = "com.metrolist.music"
         minSdk = 26
         targetSdk = 36
-        versionCode = 136
-        versionName = "12.12.1"
+        versionCode = 137
+        versionName = "12.12.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -172,8 +171,6 @@ android {
             excludes += "META-INF/NOTICE.md"
             excludes += "META-INF/CONTRIBUTORS.md"
             excludes += "META-INF/LICENSE.md"
-            excludes += "META-INF/INDEX.LIST"
-            excludes += "META-INF/io.netty.versions.properties"
         }
     }
 }
