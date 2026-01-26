@@ -82,6 +82,8 @@
     <string name="maximum_volume">Maximum Volume</string>
     <string name="hide_player_thumbnail">Hide Player Thumbnail</string>
     <string name="hide_player_thumbnail_desc">Replace album artwork with app logo in player</string>
+    <string name="crop_album_art">Crop Album Art</string>
+    <string name="crop_album_art_desc">Force a square aspect ratio by cropping video thumbnails</string>
 
     <string name="already_in_playlist">Already in playlist:</string>
 
@@ -249,6 +251,7 @@
     <string name="disable_load_more_when_repeat_all">Disable load more when repeat all</string>
     <string name="disable_load_more_when_repeat_all_desc">Don\'t auto load more songs and similar content when repeat all mode is enabled</string>
     <string name="pause_music_when_media_is_muted">Pause music when media is muted</string>
+    <string name="keep_screen_on_when_player_is_expanded">Keep screen on when player is expanded</string>
 
     <!-- Romanization Settings -->
     <string name="lyrics_romanization_cyrillic">Cyrillic</string>
