@@ -52,6 +52,13 @@ fun IntegrationScreen(
                     }
                 ),
                 IntegrationCardItem(
+                    icon = painterResource(R.drawable.language),
+                    title = { Text(stringResource(R.string.webhook_integration)) },
+                    onClick = {
+                        navController.navigate("settings/integrations/webhook")
+                    }
+                ),
+                IntegrationCardItem(
                     icon = painterResource(R.drawable.music_note),
                     title = { Text(stringResource(R.string.lastfm_integration)) },
                     onClick = {

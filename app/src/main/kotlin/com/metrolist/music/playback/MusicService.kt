@@ -123,6 +123,7 @@ import com.metrolist.music.constants.ShufflePlaylistFirstKey
 import com.metrolist.music.constants.SimilarContent
 import com.metrolist.music.constants.SkipSilenceInstantKey
 import com.metrolist.music.constants.SkipSilenceKey
+import com.metrolist.music.constants.WebhookUrlKey
 import com.metrolist.music.db.MusicDatabase
 import com.metrolist.music.db.entities.Event
 import com.metrolist.music.db.entities.FormatEntity
@@ -160,6 +161,7 @@ import com.metrolist.music.utils.DiscordRPC
 import com.metrolist.music.utils.NetworkConnectivityObserver
 import com.metrolist.music.utils.ScrobbleManager
 import com.metrolist.music.utils.SyncUtils
+import com.metrolist.music.utils.WebhookManager
 import com.metrolist.music.utils.YTPlayerUtils
 import com.metrolist.music.utils.dataStore
 import com.metrolist.music.utils.enumPreference
@@ -188,6 +190,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.coroutineContext
 import okhttp3.OkHttpClient
+import timber.log.Timber
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.time.LocalDateTime
@@ -286,6 +289,8 @@ class MusicService :
     private var discordUpdateJob: kotlinx.coroutines.Job? = null
 
     private var scrobbleManager: ScrobbleManager? = null
+
+    private var webhookManager: WebhookManager? = null
 
     val automixItems = MutableStateFlow<List<MediaItem>>(emptyList())
 
@@ -554,6 +559,16 @@ class MusicService :
                     }
                 }
             }
+
+        scope.launch {
+            dataStore.data
+                .map { it[WebhookUrlKey] }
+                .distinctUntilChanged()
+                .collect { url ->
+                    webhookManager = WebhookManager(scope)
+                    webhookManager?.webhookUrl = if (!url.isNullOrBlank()) url else null
+                }
+        }
 
         dataStore.data
             .map { it[EnableLastFMScrobblingKey] ?: false }
@@ -1432,6 +1447,8 @@ class MusicService :
         setupLoudnessEnhancer()
 
         discordUpdateJob?.cancel()
+
+        webhookManager?.onSongChanged(mediaItem?.metadata)
 
         scrobbleManager?.onSongStop()
         if (player.playWhenReady && player.playbackState == Player.STATE_READY) {

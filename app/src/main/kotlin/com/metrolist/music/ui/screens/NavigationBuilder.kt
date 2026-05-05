@@ -55,6 +55,7 @@ import com.metrolist.music.ui.screens.settings.UpdaterScreen
 import com.metrolist.music.ui.screens.settings.integrations.DiscordSettings
 import com.metrolist.music.ui.screens.settings.integrations.IntegrationScreen
 import com.metrolist.music.ui.screens.settings.integrations.LastFMSettings
+import com.metrolist.music.ui.screens.settings.integrations.WebhookSettings
 import com.metrolist.music.ui.screens.wrapped.WrappedScreen
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
@@ -333,6 +334,10 @@ fun NavGraphBuilder.navigationBuilder(
 
     composable("settings/integrations/discord") {
         DiscordSettings(navController, scrollBehavior)
+    }
+
+    composable("settings/integrations/webhook") {
+        WebhookSettings(navController, scrollBehavior)
     }
 
     composable("settings/integrations/lastfm") {

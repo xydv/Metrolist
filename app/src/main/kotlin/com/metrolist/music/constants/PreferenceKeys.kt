@@ -113,6 +113,9 @@ val DiscordUseDetailsKey = booleanPreferencesKey("discordUseDetails")
 // Google Cast
 val EnableGoogleCastKey = booleanPreferencesKey("enableGoogleCast")
 
+// Webhook
+val WebhookUrlKey = stringPreferencesKey("webhook_url")
+
 val LastFMSessionKey = stringPreferencesKey("lastfmSession")
 val LastFMUsernameKey = stringPreferencesKey("lastfmUsername")
 val EnableLastFMScrobblingKey = booleanPreferencesKey("lastfmScrobblingEnable")

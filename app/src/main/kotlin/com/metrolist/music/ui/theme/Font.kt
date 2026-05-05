@@ -8,3 +8,7 @@ import com.metrolist.music.R
 val bbhBartle = FontFamily(
     Font(R.font.bbh_bartle_regular, FontWeight.Normal)
 )
+
+val dmSans = FontFamily(
+    Font(R.font.dmsans_regular, FontWeight.Normal)
+)
